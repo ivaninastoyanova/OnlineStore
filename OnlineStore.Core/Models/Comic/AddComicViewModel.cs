@@ -36,6 +36,7 @@ namespace OnlineStore.Core.Models.Comic
         [StringLength(PhotoUrlMaxLength)]
         public string PhotoUrl { get; set; } = null!;
 
+        [Display(Name = "Category")]
         public string CategoryId { get; set; } = null!;
 
         public IEnumerable<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();

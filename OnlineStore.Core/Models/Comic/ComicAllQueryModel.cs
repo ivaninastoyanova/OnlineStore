@@ -20,6 +20,7 @@ namespace OnlineStore.Core.Models.Comic
             Comics = new List<ComicAllViewModel>();
         }
 
+        [Display(Name = "Category Name")]
         public string? CategoryName { get; set; }
 
         [Display(Name = "Search by word")]

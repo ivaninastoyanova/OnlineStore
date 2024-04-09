@@ -15,6 +15,7 @@ namespace OnlineStore.Core.Models.Creator
 
         [Required]
         [StringLength(CreatorNameMaxLength, MinimumLength = CreatorNameMinLength)]
+        [Display(Name = "Full Name")]
         public string FullName { get; set; } = null!;
 
         [Required]
@@ -23,6 +24,7 @@ namespace OnlineStore.Core.Models.Creator
 
         [Required]
         [MaxLength(PhotoUrlMaxLength)]
+        [Display(Name = "Photo Url")]
         public string PhotoUrl { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
