@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OnlineStore.Infrastructure.Constants;
 using OnlineStore.Models;
 using System.Diagnostics;
 
 namespace OnlineStore.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -13,9 +15,10 @@ namespace OnlineStore.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("All", "Comic");
         }
 
         public IActionResult Privacy()
