@@ -15,5 +15,9 @@ namespace OnlineStore.Core.Contracts
         public Task<bool> ValidateCreator(string name);
 
         public Task<IEnumerable<AllCreatorsViewModel>> GetAllCreatorsAsync();
+
+        public Task<CreatorDetailsViewModel> FillModelById(CreatorDetailsViewModel model, int id);
+
+        public Task<Creator> GetGreatorByIdAsync(int id);
     }
 }

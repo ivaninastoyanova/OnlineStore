@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Core.Contracts;
 using OnlineStore.Core.Models.Creator;
+using OnlineStore.Infrastructure.Data.Models;
 
 namespace OnlineStore.Controllers
 {
@@ -26,6 +27,24 @@ namespace OnlineStore.Controllers
             return View(model);
         }
 
+        
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            Creator creator = await creatorService.GetGreatorByIdAsync(id);
 
+            if (creator == null || creator.IsDeleted == true)
+            {
+                TempData["ErrorMessage"] = "Creator does not exist!";
+
+                return RedirectToAction("All");
+            }
+
+            CreatorDetailsViewModel emptyModel = new CreatorDetailsViewModel();
+
+            CreatorDetailsViewModel model = await creatorService.FillModelById(emptyModel, id);
+
+            return View(model);
+        }
     }
 }

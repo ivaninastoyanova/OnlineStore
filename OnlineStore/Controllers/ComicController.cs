@@ -46,7 +46,7 @@ namespace OnlineStore.Controllers
 
             if(model == null)
             {
-                return BadRequest();
+                return RedirectToAction("All");
             }
 
             return View(model);

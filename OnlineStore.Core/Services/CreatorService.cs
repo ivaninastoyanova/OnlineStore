@@ -59,5 +59,30 @@ namespace OnlineStore.Core.Services
 
             return result;
         }
+
+        public async Task<CreatorDetailsViewModel> FillModelById(CreatorDetailsViewModel model, int id)
+        {
+            Creator? creator = await db.Creators.FindAsync(id);
+
+            model.Id = creator.Id;
+            model.FullName = creator.FullName;
+            model.Biography = creator.Biography;
+            model.PhotoUrl = creator.PhotoUrl;
+            model.IsDeleted = creator.IsDeleted;
+
+            return model;
+        }
+
+        public async Task<Creator> GetGreatorByIdAsync(int id)
+        {
+            Creator? author = await db.Creators.FindAsync(id);
+
+            if (author == null)
+            {
+                return null;
+            }
+
+            return author;
+        }
     }
 }
