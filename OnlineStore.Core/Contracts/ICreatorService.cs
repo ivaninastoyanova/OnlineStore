@@ -19,5 +19,7 @@ namespace OnlineStore.Core.Contracts
         public Task<CreatorDetailsViewModel> FillModelById(CreatorDetailsViewModel model, int id);
 
         public Task<Creator> GetGreatorByIdAsync(int id);
+
+        public Task AddCreatorAsync(AddCreatorFormModel model);
     }
 }

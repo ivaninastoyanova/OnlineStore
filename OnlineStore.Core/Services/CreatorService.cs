@@ -84,5 +84,22 @@ namespace OnlineStore.Core.Services
 
             return author;
         }
+
+        public async Task AddCreatorAsync(AddCreatorFormModel model)
+        {
+            Creator creator = new Creator
+            {
+                Id = model.Id,
+                FullName = model.FullName,
+                Biography = model.Biography,
+                PhotoUrl = model.PhotoUrl
+            };
+
+            await db.Creators
+                .AddAsync(creator);
+
+            await db.SaveChangesAsync();
+        }
+
     }
 }

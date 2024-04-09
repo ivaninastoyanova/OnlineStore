@@ -46,5 +46,49 @@ namespace OnlineStore.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            //if (!IsAdmin(User))
+            //{
+            //    return Unauthorized();
+            //}
+
+            AddCreatorFormModel model = new AddCreatorFormModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddCreatorFormModel model)
+        {
+            //if (!IsAdmin(User))
+            //{
+            //    return Unauthorized();
+            //}
+           
+
+            if (await creatorService.ValidateCreator(model.FullName))
+            {
+                ModelState.AddModelError(nameof(model.FullName), "This Creator already exists! Add different one or check all creators.");
+
+                return View(model);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Invalid creator information!";
+
+                return View(model);
+            }
+
+            await creatorService.AddCreatorAsync(model);
+
+            TempData["Success"] = "Author succsefully added!";
+
+            return RedirectToAction("All", "Creator");
+        }
+
     }
 }
