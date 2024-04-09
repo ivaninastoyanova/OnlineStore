@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineStore.Core.Contracts;
+using OnlineStore.Core.Models.Creator;
 using OnlineStore.Infrastructure;
 using OnlineStore.Infrastructure.Data.Models;
 using System;
@@ -45,5 +46,18 @@ namespace OnlineStore.Core.Services
             return true;
         }
 
+        public async Task<IEnumerable<AllCreatorsViewModel>> GetAllCreatorsAsync()
+        {
+            IEnumerable<AllCreatorsViewModel> result = await db.Creators
+                .Select(a => new AllCreatorsViewModel
+                {
+                    Id = a.Id,
+                    Name = a.FullName,
+                    IsDeleted = a.IsDeleted
+                })
+                .ToListAsync();
+
+            return result;
+        }
     }
 }

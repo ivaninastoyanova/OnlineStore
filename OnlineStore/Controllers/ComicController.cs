@@ -36,7 +36,7 @@ namespace OnlineStore.Controllers
             return View(query);
         }
 
-        [AllowAnonymous]
+        
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {

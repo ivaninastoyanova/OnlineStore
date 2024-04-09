@@ -1,4 +1,5 @@
-﻿using OnlineStore.Infrastructure.Data.Models;
+﻿using OnlineStore.Core.Models.Creator;
+using OnlineStore.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace OnlineStore.Core.Contracts
         public Task<Creator> GetCreatorByNameAsync(string name);
 
         public Task<bool> ValidateCreator(string name);
+
+        public Task<IEnumerable<AllCreatorsViewModel>> GetAllCreatorsAsync();
     }
 }

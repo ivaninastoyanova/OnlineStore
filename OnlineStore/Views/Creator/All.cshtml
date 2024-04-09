@@ -1,0 +1,33 @@
+﻿@model IEnumerable<AllCreatorsViewModel>
+@using OnlineStore.Core.Models.Creator;
+@{
+    ViewBag.Title = "All Creators";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@{
+    for (char c = 'A'; c <= 'Z'; c++)
+    {
+        <div class="list-group">
+            @{
+                if (Model.Any(a => a.Name.StartsWith(c)))
+                {
+                    <ul class="list-group">
+                        <li class="list-group-item active">@c</li>
+                        @{
+                            foreach (AllCreatorsViewModel creator in Model.Where(a => a.Name.StartsWith(c)))
+                            {
+                                <li class="list-group-item">
+                                    <a asp-controller="Creator" asp-action="Details"
+                                       asp-route-id="@creator.Id">@creator.Name</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                }
+            }
+        </div>
+    }
+}

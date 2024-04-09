@@ -10,8 +10,4 @@
     <ProjectReference Include="..\OnlineStore.Infrastructure\OnlineStore.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Creator\" />
-  </ItemGroup>
-
 </Project>
