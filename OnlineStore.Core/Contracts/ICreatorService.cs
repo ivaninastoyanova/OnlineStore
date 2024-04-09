@@ -10,5 +10,7 @@ namespace OnlineStore.Core.Contracts
     public interface ICreatorService
     {
         public Task<Creator> GetCreatorByNameAsync(string name);
+
+        public Task<bool> ValidateCreator(string name);
     }
 }

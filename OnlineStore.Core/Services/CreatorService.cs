@@ -31,5 +31,19 @@ namespace OnlineStore.Core.Services
 
             return creator;
         }
+
+        public async Task<bool> ValidateCreator(string name)
+        {
+            Creator? creator = await db.Creators
+                .FirstOrDefaultAsync(a => a.FullName.ToLower() == name.ToLower());
+
+            if (creator == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }

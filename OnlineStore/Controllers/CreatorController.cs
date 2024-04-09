@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineStore.Core.Contracts;
 
 namespace OnlineStore.Controllers
 {
     public class CreatorController : BaseController
     {
-        public IActionResult Index()
+        private ICreatorService creatorService;
+
+        public CreatorController(ICreatorService creatorService)
         {
-            return View();
+            this.creatorService = creatorService;
         }
     }
 }
