@@ -14,5 +14,7 @@ namespace OnlineStore.Core.Contracts
 
         public Task<AllComicsFilteredAndOrdered> AllAsync(ComicAllQueryModel queryModel);
 
+        public Task<ComicDetailsViewModel> GetComicAsync(ComicDetailsViewModel model, int id);
+
     }
 }

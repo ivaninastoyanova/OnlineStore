@@ -33,5 +33,21 @@ namespace OnlineStore.Controllers
 
             return View(query);
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            ComicDetailsViewModel model = new ComicDetailsViewModel();
+
+            model = await comicService.GetComicAsync(model, id);
+
+            if(model == null)
+            {
+                return BadRequest();
+            }
+
+            return View(model);
+        }
     }
 }

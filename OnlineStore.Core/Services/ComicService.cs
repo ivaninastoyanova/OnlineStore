@@ -21,23 +21,6 @@ namespace OnlineStore.Core.Services
             this.db = db;
         }
 
-        public async Task AddComicAsync(AddComicViewModel model, Creator creator)
-        {
-            Comic comic = new Comic
-            {
-                Id = model.Id,
-                Title = model.Title,
-                Description = model.Description,
-                CreatorId = creator.Id,
-                CategoryId = int.Parse(model.CategoryId),
-                Price = model.Price,
-                PhotoUrl = model.PhotoUrl
-            };
-
-            await db.Comics.AddAsync(comic);
-            await db.SaveChangesAsync();
-        }
-
         public async Task<AllComicsFilteredAndOrdered> AllAsync(ComicAllQueryModel queryModel)
         {
             IQueryable<Comic> comicQuery = this.db
@@ -102,6 +85,50 @@ namespace OnlineStore.Core.Services
                 TotalComicsCount = totalComicsCount,
                 Comics = comics
             };
+        }
+
+        public async Task<ComicDetailsViewModel> GetComicAsync(ComicDetailsViewModel model, int id)
+        {
+            Comic? comic = await db.Comics
+                .Include(cr => cr.Creator)
+                .Include(c => c.Category)
+                .Include(d => d.Reviews)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
+            if (comic == null)
+            {
+                return null;
+            }
+
+            model.Id = comic.Id;
+            model.Title = comic.Title;
+            model.Description = comic.Description;
+            model.Price = comic.Price;
+            model.PhotoUrl = comic.PhotoUrl;
+            model.CategoryId = comic.CategoryId;
+            model.CreatorId = comic.CreatorId;
+            model.Reviews = comic.Reviews;
+            model.CreatorName = comic.Creator.FullName;
+            model.CategoryName = comic.Category.Name;
+
+            return model;
+        }
+
+        public async Task AddComicAsync(AddComicViewModel model, Creator creator)
+        {
+            Comic comic = new Comic
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Description = model.Description,
+                CreatorId = creator.Id,
+                CategoryId = int.Parse(model.CategoryId),
+                Price = model.Price,
+                PhotoUrl = model.PhotoUrl
+            };
+
+            await db.Comics.AddAsync(comic);
+            await db.SaveChangesAsync();
         }
     }
 }
