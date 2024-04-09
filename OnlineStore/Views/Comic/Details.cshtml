@@ -1,0 +1,68 @@
+﻿@model ComicDetailsViewModel
+@using OnlineStore.Core.Models.Comic
+@using OnlineStore.Infrastructure.Data.Models;
+
+@{
+    ViewBag.Title = "Comic Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-4">
+            <img class="card-img-top" style="width: 20rem;"
+                 src="@Model.PhotoUrl" alt="Comic Image">
+        </div>
+        <div class="card col-8 border-0">
+            <p style="font-size:25px;"><u>@Model.Title</u></p>
+            <p>Written by: <b>@Model.CreatorName</b></p>
+            <p>Category: <b>@Model.CategoryName</b></p>
+            <p>@Model.Description</p>
+            <div class="form-inline">
+                @if (this.User.Identity?.IsAuthenticated ?? false)
+                {
+                    <a class="btn btn-warning" asp-controller="Comic" asp-action="Edit"
+                       asp-route-id="@Model.Id">Edit</a>
+                    <a class="ml-2 btn btn-danger" asp-controller="Comic" asp-action="Delete"
+                       asp-route-id="@Model.Id" confirm="Are your sure?">Delete</a>
+                    <a class="ml-2 btn btn-info" asp-controller="Creator" asp-action="Details"
+                       asp-route-id="@Model.CreatorId">View Creator</a>
+                    <a class="ml-2 btn btn-success" asp-controller="Cart" asp-action="Purchase"
+                       asp-route-id="@Model.Id">Buy Comic</a>
+                }
+            </div>
+            <p></p>
+            <div class="form-inline align-self-center">
+                <p text-centre style="font-size:25px;"><u>Reviews</u></p>
+                <a class="ml-2 btn btn-info" asp-controller="Reviews" asp-action="Add"
+                   asp-route-id="@Model.Id">Write a Review</a>
+            </div>
+
+            @if (Model.Reviews.Count == 0)
+            {
+                <p text-centre style="font-size:25px;">No reviews yet!</p>
+            }
+
+            @foreach(Review review in Model.Reviews)
+            {
+                <br />
+                <div class="form-inline align-self-center card col-8 border-1">
+                    <p style="font-size:15px;"><b>@review.ReviewText</b></p>
+                    <p>Written by: <b>@review.ReviewerName</b></p>
+                    <p>Rating: <b>@review.StarRating/5</b></p>
+                    @{
+                        if (review.ReviewerName == User.Identity.Name || User.IsInRole("Admin"))
+                        {
+                            <div class="form-inline align-self-center">
+                                <a class="btn btn-danger" asp-controller="Reviews" asp-action="Remove"
+                                   asp-route-id="@review.Id" confirm="Are your sure?">Remove</a>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
