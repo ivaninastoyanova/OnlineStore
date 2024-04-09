@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OnlineStore.Infrastructure.Data.Models;
+using OnlineStore.Infrastructure.Data.SeedDbConfigurations;
 
 namespace OnlineStore.Infrastructure
 {
@@ -55,7 +56,7 @@ namespace OnlineStore.Infrastructure
                 .WithOne(u => u.User)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //EntitySeedDataConfiguration.Seed(builder);
+            EntitySeedConfiguration.Seed(builder);
 
             base.OnModelCreating(builder);
         }
