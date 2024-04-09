@@ -15,7 +15,8 @@ namespace OnlineStore.Infrastructure.Constants
         public const int ComicDescriptionMinLength = 10;
         public const int ComicDescriptionMaxLength = 1000;
 
-        public const decimal ComicPriceMin = 0.01m;
+        public const double ComicPriceMin = 0.01;
+        public const double ComicPriceMax = 10000;
 
         //Creator Constants
         public const int CreatorNameMinLength = 5;
