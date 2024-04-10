@@ -40,7 +40,10 @@ namespace OnlineStore.Core.Services
 
         public bool CheckIfAnyComicWithGivenCategory(int id)
         {
-            if (db.Comics.Any(c => c.CategoryId == id))
+            Comic? comic = db.Comics
+                .FirstOrDefault(c => c.CategoryId == id);
+
+            if(comic != null && comic.IsDeleted == false)
             {
                 return true;
             }
