@@ -141,7 +141,7 @@ namespace OnlineStore.Controllers
 
             await creatorService.EditCreatorAsync(model, creator);
 
-            TempData["Success"] = "Author edited added!";
+            TempData["Success"] = "Creator edited!";
 
             return RedirectToAction("All");
         }
