@@ -21,5 +21,9 @@ namespace OnlineStore.Core.Contracts
         public Task<Creator> GetGreatorByIdAsync(int id);
 
         public Task AddCreatorAsync(AddCreatorFormModel model);
+
+        public bool CheckIfAnyComicByCertainCreator(int id);
+
+        public Task DeleteCreatorAsync(int id);
     }
 }

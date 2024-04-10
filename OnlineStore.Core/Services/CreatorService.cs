@@ -101,5 +101,27 @@ namespace OnlineStore.Core.Services
             await db.SaveChangesAsync();
         }
 
+        public async Task DeleteCreatorAsync(int id)
+        {
+            Creator? creator = await db.Creators.FindAsync(id);
+
+            creator.IsDeleted = true;
+
+            await db.SaveChangesAsync();
+        }
+
+        public bool CheckIfAnyComicByCertainCreator(int id)
+        {
+            Comic? comic = db.Comics
+                .FirstOrDefault(c => c.CreatorId == id);
+
+            if (comic != null && comic.IsDeleted == false)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

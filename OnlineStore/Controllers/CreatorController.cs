@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Core.Contracts;
 using OnlineStore.Core.Models.Creator;
+using OnlineStore.Core.Services;
 using OnlineStore.Infrastructure.Data.Models;
 
 namespace OnlineStore.Controllers
@@ -90,5 +91,27 @@ namespace OnlineStore.Controllers
             return RedirectToAction("All", "Creator");
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            Creator creator = await creatorService.GetGreatorByIdAsync(id);
+
+            if (creator == null || creator.IsDeleted == true)
+            {
+                TempData["ErrorMessage"] = "Creator does not exist!";
+
+                return RedirectToAction("All");
+            }
+
+            if (creatorService.CheckIfAnyComicByCertainCreator(id))
+            {
+                TempData["ErrorMessage"] = "There are comics by the Creator that exist! Remove them first!";
+
+                return RedirectToAction("All");
+            }
+
+            await creatorService.DeleteCreatorAsync(id);
+
+            return RedirectToAction("All");
+        }
     }
 }
