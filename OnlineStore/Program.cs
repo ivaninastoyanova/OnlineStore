@@ -31,6 +31,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 builder.Services.AddScoped<IComicService, ComicService>();
 builder.Services.AddScoped<ICreatorService, CreatorService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICartService, CartService>();
 //to do: add more services
 
 builder.Services.AddControllersWithViews();
