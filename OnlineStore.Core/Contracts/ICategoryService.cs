@@ -14,5 +14,9 @@ namespace OnlineStore.Core.Contracts
         public Task<IEnumerable<string>> AllCategoryNames();
 
         public bool CheckIfAnyComicWithGivenCategory(int id);
+
+        public Task<bool> ValidateCategory(string name);
+
+        public Task AddCategoryAsync(CategoryViewModel model);
     }
 }

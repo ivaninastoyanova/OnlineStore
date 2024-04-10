@@ -2,6 +2,7 @@
 using OnlineStore.Core.Contracts;
 using OnlineStore.Core.Models.Category;
 using OnlineStore.Infrastructure;
+using OnlineStore.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,30 @@ namespace OnlineStore.Core.Services
             }
 
             return false;
+        }
+
+        public async Task<bool> ValidateCategory(string name)
+        {
+            Category? category = await db.Categories
+                .FirstOrDefaultAsync(a => a.Name.ToLower() == name.ToLower());
+
+            if (category == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task AddCategoryAsync(CategoryViewModel model)
+        {
+            Category category = new Category()
+            {
+                Name = model.Name
+            };
+
+            await db.Categories.AddAsync(category);
+            await db.SaveChangesAsync();
         }
     }
 }
