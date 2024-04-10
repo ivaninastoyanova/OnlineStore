@@ -1,4 +1,5 @@
 ﻿using OnlineStore.Core.Models.Category;
+using OnlineStore.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,9 @@ namespace OnlineStore.Core.Contracts
         public Task<bool> ValidateCategory(string name);
 
         public Task AddCategoryAsync(CategoryViewModel model);
+
+        public Task RemoveAsync(int id);
+
+        public Category FindCategory(int id);
     }
 }

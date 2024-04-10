@@ -2,6 +2,7 @@
 using OnlineStore.Core.Contracts;
 using OnlineStore.Core.Models.Category;
 using OnlineStore.Core.Services;
+using OnlineStore.Infrastructure.Data.Models;
 
 namespace OnlineStore.Controllers
 {
@@ -43,6 +44,22 @@ namespace OnlineStore.Controllers
             await categoryService.AddCategoryAsync(model);
 
             TempData["Success"] = "Category added succesfully!";
+
+            return RedirectToAction("All");
+        }
+
+        public async Task<IActionResult> Remove(int id)
+        {
+            Category? category = categoryService.FindCategory(id);
+
+            if (category == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            await categoryService.RemoveAsync(id);
+
+            TempData["Success"] = "Category removed succesfully!";
 
             return RedirectToAction("All");
         }

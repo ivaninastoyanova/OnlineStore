@@ -71,5 +71,28 @@ namespace OnlineStore.Core.Services
             await db.Categories.AddAsync(category);
             await db.SaveChangesAsync();
         }
+
+        public async Task RemoveAsync(int id)
+        {
+            Category? category = await db.Categories.FindAsync(id);
+
+            db.Categories.Remove(category);
+
+            await db.SaveChangesAsync();
+        }
+
+        public Category FindCategory(int id)
+        {
+            Category? category = db.Categories
+                .Where(c => c.Id == id)
+                .FirstOrDefault(c => c.Id == id);
+
+            if(category == null)
+            {
+                return null;
+            }
+
+            return category;
+        }
     }
 }
