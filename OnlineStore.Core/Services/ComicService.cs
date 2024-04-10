@@ -130,5 +130,21 @@ namespace OnlineStore.Core.Services
             await db.Comics.AddAsync(comic);
             await db.SaveChangesAsync();
         }
+
+        public async Task<bool> DeleteComic(int id)
+        {
+            Comic? comic = await db.Comics.FindAsync(id);
+
+            if (comic == null)
+            {
+                return false;
+            }
+
+            comic.IsDeleted = true;
+
+            await db.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

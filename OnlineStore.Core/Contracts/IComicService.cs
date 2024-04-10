@@ -16,5 +16,7 @@ namespace OnlineStore.Core.Contracts
 
         public Task<ComicDetailsViewModel> GetComicAsync(ComicDetailsViewModel model, int id);
 
+        public Task<bool> DeleteComic(int id);
+
     }
 }

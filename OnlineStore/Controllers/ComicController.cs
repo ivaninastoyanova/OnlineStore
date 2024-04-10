@@ -103,5 +103,22 @@ namespace OnlineStore.Controllers
             return RedirectToAction("All");
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            bool result = await comicService.DeleteComic(id);
+
+            if (result)
+            {
+                TempData["Success"] = "Comic deleted succesfully!";
+
+                return RedirectToAction("All");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Comic does not exist!";
+
+                return RedirectToAction("All");
+            }
+        }
     }
 }
