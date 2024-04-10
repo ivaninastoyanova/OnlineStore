@@ -97,5 +97,15 @@ namespace OnlineStore.Core.Services
 
             return category;
         }
+
+        public async Task EditCategoryAsync(int id, CategoryViewModel model)
+        {
+            Category? category = await db.Categories.FindAsync(id);
+
+            category.Name = model.Name;
+
+            await db.SaveChangesAsync();
+        }
+
     }
 }

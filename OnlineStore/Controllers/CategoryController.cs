@@ -70,5 +70,40 @@ namespace OnlineStore.Controllers
 
             return RedirectToAction("All");
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Category categoryToEdit = categoryService.FindCategory(id);
+
+            if (categoryToEdit == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            CategoryViewModel categoryModel = new CategoryViewModel()
+            {
+                Name = categoryToEdit.Name
+            };
+
+            return View(categoryModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, CategoryViewModel categoryModel)
+        {
+            var categoryToEdit = categoryService.FindCategory(id);
+
+            if (categoryToEdit == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            await categoryService.EditCategoryAsync(id, categoryModel);
+
+            TempData["Success"] = "Category edited succesfully!";
+
+            return RedirectToAction("All");
+        }
     }
 }

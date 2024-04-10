@@ -23,5 +23,7 @@ namespace OnlineStore.Core.Contracts
         public Task RemoveAsync(int id);
 
         public Category FindCategory(int id);
+
+        public Task EditCategoryAsync(int id, CategoryViewModel model);
     }
 }
