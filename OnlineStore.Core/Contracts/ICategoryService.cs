@@ -12,5 +12,7 @@ namespace OnlineStore.Core.Contracts
         public Task<IEnumerable<CategoryViewModel>> GetCategoriesAsync();
 
         public Task<IEnumerable<string>> AllCategoryNames();
+
+        public bool CheckIfAnyComicWithGivenCategory(int id);
     }
 }

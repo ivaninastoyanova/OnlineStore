@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CategoryViewModel>
+@using OnlineStore.Core.Contracts;
+@using OnlineStore.Core.Models.Category;
+
+@{
+    ViewData["Title"] = "All Categories";
+    int count = 0;
+}
+
+@inject ICategoryService CategoryService;
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Cateogry Name</th>
+            <th scpoe="row">Remove Category</th>
+            <th scpoe="row">Edit Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(CategoryViewModel category in Model)
+        {
+            count++;
+            <tr>
+                <th scope="row">@count</th>
+                <td>@category.Name</td>
+                @{
+                    if (CategoryService.CheckIfAnyComicWithGivenCategory(category.CategoryId))
+                    {
+                        <td>To remove the Category, Comics with the given Category must not exist.</td>
+                    }
+                    else
+                    {
+                        <td>
+                            <div class="form-inline align-self-center">
+                                <a class="btn btn-danger" asp-controller="Category" asp-action="Remove"
+                                   asp-route-id="@category.CategoryId" confirm="Are your sure?">Remove</a>
+                            </div>
+                        </td>
+                    }
+                 }
+                <td>
+                    <div class="form-inline align-self-center">
+                        <a class="btn btn-danger" asp-controller="Category" asp-action="Edit"
+                           asp-route-id="@category.CategoryId">Edit</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

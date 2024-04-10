@@ -36,5 +36,15 @@ namespace OnlineStore.Core.Services
                 .Select(c => c.Name)
                 .ToListAsync();
         }
+
+        public bool CheckIfAnyComicWithGivenCategory(int id)
+        {
+            if (db.Comics.Any(c => c.CategoryId == id))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

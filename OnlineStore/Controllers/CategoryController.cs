@@ -1,12 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineStore.Core.Contracts;
+using OnlineStore.Core.Models.Category;
 
 namespace OnlineStore.Controllers
 {
     public class CategoryController : BaseController
     {
-        public IActionResult Index()
+        private readonly ICategoryService categoryService;
+
+        public CategoryController(ICategoryService categoryService)
         {
-            return View();
+            this.categoryService = categoryService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> All()
+        {
+            IEnumerable<CategoryViewModel> categories = await categoryService.GetCategoriesAsync();
+
+            return View(categories);
         }
     }
 }
