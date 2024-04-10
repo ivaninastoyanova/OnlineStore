@@ -25,5 +25,9 @@ namespace OnlineStore.Core.Contracts
         public bool CheckIfAnyComicByCertainCreator(int id);
 
         public Task DeleteCreatorAsync(int id);
+
+        public Task<AddCreatorFormModel> FillModelById(AddCreatorFormModel model, int id);
+
+        public Task EditCreatorAsync(AddCreatorFormModel model, Creator creator);
     }
 }

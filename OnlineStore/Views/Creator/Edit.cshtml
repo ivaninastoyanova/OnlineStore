@@ -1,0 +1,38 @@
+﻿@model AddCreatorFormModel
+@using OnlineStore.Core.Models.Creator;
+
+@{
+    ViewData["Title"] = "Edit Creator";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="FullName"></label>
+                <input asp-for="FullName" class="form-control" placeholder="Full Name of the Creator">
+                <span asp-validation-for="FullName" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Biography"></label>
+                <input asp-for="Biography" class="form-control" placeholder="Biography of the Creator">
+                <span asp-validation-for="Biography" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhotoUrl"></label>
+                <input asp-for="PhotoUrl" class="form-control" placeholder="Photo URL">
+                <span asp-validation-for="PhotoUrl" class="small text-danger"></span>
+            </div>
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+}

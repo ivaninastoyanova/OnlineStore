@@ -123,5 +123,27 @@ namespace OnlineStore.Core.Services
             return false;
         }
 
+        public async Task<AddCreatorFormModel> FillModelById(AddCreatorFormModel model, int id)
+        {
+            Creator? creator = await db.Creators.FindAsync(id);
+
+            model.Id = creator.Id;
+            model.FullName = creator.FullName;
+            model.Biography = creator.Biography;
+            model.PhotoUrl = creator.PhotoUrl;
+            model.IsDeleted = creator.IsDeleted;
+
+            return model;
+        }
+
+        public async Task EditCreatorAsync(AddCreatorFormModel model, Creator creator)
+        {
+            creator.FullName = model.FullName;
+            creator.Biography = model.Biography;
+            creator.PhotoUrl = model.PhotoUrl;
+            model.IsDeleted = creator.IsDeleted;
+
+            await db.SaveChangesAsync();
+        }
     }
 }

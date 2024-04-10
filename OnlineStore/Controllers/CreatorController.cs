@@ -113,5 +113,37 @@ namespace OnlineStore.Controllers
 
             return RedirectToAction("All");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+
+            Creator creator = await creatorService.GetGreatorByIdAsync(id);
+
+            if (creator == null || creator.IsDeleted == true)
+            {
+                TempData["ErrorMessage"] = "Creator does not exist!";
+
+                return RedirectToAction("All");
+            }
+
+            AddCreatorFormModel emptyModel = new AddCreatorFormModel();
+
+            AddCreatorFormModel model = await creatorService.FillModelById(emptyModel, id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AddCreatorFormModel model)
+        {
+            Creator creator = await creatorService.GetGreatorByIdAsync(model.Id);
+
+            await creatorService.EditCreatorAsync(model, creator);
+
+            TempData["Success"] = "Author edited added!";
+
+            return RedirectToAction("All");
+        }
     }
 }
