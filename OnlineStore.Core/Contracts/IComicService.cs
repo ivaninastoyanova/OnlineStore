@@ -18,5 +18,9 @@ namespace OnlineStore.Core.Contracts
 
         public Task<bool> DeleteComic(int id);
 
+        public Task EditComicAsync(AddComicViewModel model, int id);
+
+        public AddComicViewModel FindComic(int id);
+
     }
 }

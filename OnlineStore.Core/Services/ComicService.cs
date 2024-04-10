@@ -146,5 +146,46 @@ namespace OnlineStore.Core.Services
 
             return true;
         }
+
+        public async Task EditComicAsync(AddComicViewModel model, int id)
+        {
+            Comic? comic = await db.Comics.FindAsync(id);
+
+            Creator? creator = await db.Creators.FirstOrDefaultAsync(a => a.FullName == model.Creator);
+
+            comic.Creator = creator;
+            comic.Title = model.Title;
+            comic.Description = model.Description;
+            comic.PhotoUrl = model.PhotoUrl;
+            comic.Price = model.Price;
+            comic.CategoryId = int.Parse(model.CategoryId);
+            comic.IsDeleted = false;
+
+            await db.SaveChangesAsync();
+        }
+
+        public AddComicViewModel FindComic(int id)
+        {
+            Comic? comic = db.Comics.Find(id);
+
+            if (comic == null)
+            {
+                return null;
+            }
+
+            Creator? creator = db.Creators.FirstOrDefault(a => a.Comics.Contains(comic));
+
+            AddComicViewModel model = new AddComicViewModel();
+
+            model.Id = comic.Id;
+            model.Creator = comic.Creator.FullName;
+            model.Title = comic.Title;
+            model.Description = comic.Description;
+            model.PhotoUrl = comic.PhotoUrl;
+            model.Price = comic.Price;
+            model.CategoryId = comic.CategoryId.ToString();
+
+            return model;
+        }
     }
 }

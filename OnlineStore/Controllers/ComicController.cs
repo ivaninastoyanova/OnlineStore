@@ -120,5 +120,51 @@ namespace OnlineStore.Controllers
                 return RedirectToAction("All");
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            AddComicViewModel model = new AddComicViewModel();
+
+            model = comicService.FindComic(id);
+
+           if (model == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            IEnumerable<CategoryViewModel> categories = await categoryService.GetCategoriesAsync();
+
+            model.Categories = categories;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, AddComicViewModel model)
+        {
+            var comic = comicService.FindComic(id);
+            IEnumerable<CategoryViewModel> categories = await categoryService.GetCategoriesAsync();
+
+            if (comic == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            if (!await creatorService.ValidateCreator(model.Creator))
+            {
+                ModelState.AddModelError(nameof(model.Creator), "Creator does not exist in database! Please add the creator, before you can proceed.");
+
+                model.Categories = categories;
+
+                return View(model);
+            }
+
+            await comicService.EditComicAsync(model, id);
+
+            TempData["Success"] = "Comic edited succesfully!";
+
+            return RedirectToAction("All");
+        }
     }
 }

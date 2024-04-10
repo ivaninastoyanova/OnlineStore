@@ -1,0 +1,16 @@
+﻿@model AddComicViewModel
+@using OnlineStore.Core.Models.Comic;
+
+@{
+    ViewData["Title"] = "Edit Comic";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+
+<partial name="_ComicFormPartial" model="@Model" />
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+}
