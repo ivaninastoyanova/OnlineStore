@@ -57,6 +57,13 @@ namespace OnlineStore.Controllers
                 return RedirectToAction("All");
             }
 
+            if (categoryService.CheckIfAnyComicWithGivenCategory(id))
+            {
+                TempData["ErrorMessage"] = "There are comics with this category! Remove them first!";
+
+                return RedirectToAction("All");
+            }
+
             await categoryService.RemoveAsync(id);
 
             TempData["Success"] = "Category removed succesfully!";
