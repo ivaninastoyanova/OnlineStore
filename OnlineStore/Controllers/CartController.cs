@@ -98,5 +98,47 @@ namespace OnlineStore.Controllers
             return RedirectToAction("Details");
         }
 
+        public async Task<IActionResult> Order(int id)
+        {
+            var email = GetEmail(this.User);
+
+            if (email == null)
+            {
+                TempData["Error"] = "No user found!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var cartExist = await cartService.CartExists(id);
+
+            if (!cartExist)
+            {
+                TempData["Error"] = "No cart found!";
+
+                return RedirectToAction("All", "Comic");
+            }
+
+            Cart cart = await cartService.GetCartByUserId(email);
+
+            if(cart == null || cart.Id != id)
+            {
+                TempData["Error"] = "No cart found!";
+
+                return RedirectToAction("All", "Comic");
+            }
+
+
+            if (cart.Comics.Count == 0)
+            {
+                TempData["Error"] = "No items in cart!";
+
+                return RedirectToAction("All", "Comic");
+            }
+
+            await cartService.EmptyCart(cart.Id);
+
+            return View();
+        }
+
     }
 }

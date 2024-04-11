@@ -46,7 +46,7 @@ else
         Total Price: @Model.Comics.Sum(b => b.Price)
     </div>
     <div class="form-inline align-self-center">
-        <a class="btn btn-success" asp-controller="Cart" asp-action="Finalise"
+        <a class="btn btn-success" asp-controller="Cart" asp-action="Order"
            asp-route-id="@Model.Id">Order now</a>
     </div>
 }
