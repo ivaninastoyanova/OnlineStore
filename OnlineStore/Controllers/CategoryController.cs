@@ -3,6 +3,7 @@ using OnlineStore.Core.Contracts;
 using OnlineStore.Core.Models.Category;
 using OnlineStore.Core.Services;
 using OnlineStore.Infrastructure.Data.Models;
+using static OnlineStore.Core.Constants.MessageConstants;
 
 namespace OnlineStore.Controllers
 {
@@ -43,7 +44,7 @@ namespace OnlineStore.Controllers
 
             await categoryService.AddCategoryAsync(model);
 
-            TempData["Success"] = "Category added succesfully!";
+            TempData[UserMessageSuccess] = "Category added succesfully!";
 
             return RedirectToAction("All");
         }
@@ -59,14 +60,14 @@ namespace OnlineStore.Controllers
 
             if (categoryService.CheckIfAnyComicWithGivenCategory(id))
             {
-                TempData["ErrorMessage"] = "There are comics with this category! Remove them first!";
+                TempData[UserMessageError] = "There are comics with this category! Remove them first!";
 
                 return RedirectToAction("All");
             }
 
             await categoryService.RemoveAsync(id);
 
-            TempData["Success"] = "Category removed succesfully!";
+            TempData[UserMessageSuccess] = "Category removed succesfully!";
 
             return RedirectToAction("All");
         }
@@ -101,7 +102,7 @@ namespace OnlineStore.Controllers
 
             await categoryService.EditCategoryAsync(id, categoryModel);
 
-            TempData["Success"] = "Category edited succesfully!";
+            TempData[UserMessageSuccess] = "Category edited succesfully!";
 
             return RedirectToAction("All");
         }
