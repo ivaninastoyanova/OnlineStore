@@ -4,6 +4,7 @@ using OnlineStore.Core.Contracts;
 using OnlineStore.Core.Models.Category;
 using OnlineStore.Core.Models.Comic;
 using OnlineStore.Infrastructure.Data.Models;
+using static OnlineStore.Core.Constants.MessageConstants;
 
 namespace OnlineStore.Controllers
 {
@@ -92,7 +93,7 @@ namespace OnlineStore.Controllers
 
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Invalid comic data!";
+                TempData[UserMessageError] = "Invalid comic data!";
 
                 return View(model);
             }
@@ -100,7 +101,7 @@ namespace OnlineStore.Controllers
             Creator creator = await creatorService.GetCreatorByNameAsync(model.Creator);
             await comicService.AddComicAsync(model, creator);
 
-            TempData["Success"] = "Comic added succesfully!";
+            TempData[UserMessageSuccess] = "Comic added succesfully!";
 
             return RedirectToAction("All");
         }
@@ -111,13 +112,13 @@ namespace OnlineStore.Controllers
 
             if (result)
             {
-                TempData["Success"] = "Comic deleted succesfully!";
+                TempData[UserMessageSuccess] = "Comic deleted succesfully!";
 
                 return RedirectToAction("All");
             }
             else
             {
-                TempData["ErrorMessage"] = "Comic does not exist!";
+                TempData[UserMessageError] = "Comic does not exist!";
 
                 return RedirectToAction("All");
             }
@@ -164,7 +165,7 @@ namespace OnlineStore.Controllers
 
             await comicService.EditComicAsync(model, id);
 
-            TempData["Success"] = "Comic edited succesfully!";
+            TempData[UserMessageSuccess] = "Comic edited succesfully!";
 
             return RedirectToAction("All");
         }
