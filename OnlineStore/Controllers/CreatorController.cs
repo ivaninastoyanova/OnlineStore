@@ -4,6 +4,7 @@ using OnlineStore.Core.Contracts;
 using OnlineStore.Core.Models.Creator;
 using OnlineStore.Core.Services;
 using OnlineStore.Infrastructure.Data.Models;
+using static OnlineStore.Core.Constants.MessageConstants;
 
 namespace OnlineStore.Controllers
 {
@@ -36,7 +37,7 @@ namespace OnlineStore.Controllers
 
             if (creator == null || creator.IsDeleted == true)
             {
-                TempData["ErrorMessage"] = "Creator does not exist!";
+                TempData[UserMessageError] = "Creator does not exist!";
 
                 return RedirectToAction("All");
             }
@@ -79,14 +80,14 @@ namespace OnlineStore.Controllers
 
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Invalid creator information!";
+                TempData[UserMessageError] = "Invalid creator information!";
 
                 return View(model);
             }
 
             await creatorService.AddCreatorAsync(model);
 
-            TempData["Success"] = "Author succsefully added!";
+            TempData[UserMessageSuccess] = "Creator added succesfully!";
 
             return RedirectToAction("All", "Creator");
         }
@@ -97,19 +98,21 @@ namespace OnlineStore.Controllers
 
             if (creator == null || creator.IsDeleted == true)
             {
-                TempData["ErrorMessage"] = "Creator does not exist!";
+                TempData[UserMessageError] = "Creator does not exist!";
 
                 return RedirectToAction("All");
             }
 
             if (creatorService.CheckIfAnyComicByCertainCreator(id))
             {
-                TempData["ErrorMessage"] = "There are comics by the Creator that exist! Remove them first!";
+                TempData[UserMessageError] = "There are comics by the Creator that exist! Remove them first!";
 
                 return RedirectToAction("All");
             }
 
             await creatorService.DeleteCreatorAsync(id);
+
+            TempData[UserMessageSuccess] = "Creator removed succesfully!";
 
             return RedirectToAction("All");
         }
@@ -122,7 +125,7 @@ namespace OnlineStore.Controllers
 
             if (creator == null || creator.IsDeleted == true)
             {
-                TempData["ErrorMessage"] = "Creator does not exist!";
+                TempData[UserMessageError] = "Creator does not exist!";
 
                 return RedirectToAction("All");
             }
@@ -141,7 +144,7 @@ namespace OnlineStore.Controllers
 
             await creatorService.EditCreatorAsync(model, creator);
 
-            TempData["Success"] = "Creator edited!";
+            TempData[UserMessageSuccess] = "Creator edited!";
 
             return RedirectToAction("All");
         }

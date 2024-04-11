@@ -49,6 +49,8 @@ namespace OnlineStore.Controllers
 
             if(model == null)
             {
+                TempData[UserMessageError] = "Comic does not exist!";
+
                 return RedirectToAction("All");
             }
 
