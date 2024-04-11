@@ -3,6 +3,7 @@ using OnlineStore.Core.Contracts;
 using OnlineStore.Core.Models.Reviews;
 using OnlineStore.Infrastructure.Data.Models;
 using System.Security.Claims;
+using static OnlineStore.Core.Constants.MessageConstants;
 
 namespace OnlineStore.Controllers
 {
@@ -26,14 +27,14 @@ namespace OnlineStore.Controllers
 
             if (userId == null || email == null)
             {
-                TempData["ErrorMessage"] = "No user found!";
+                TempData[UserMessageError] = "No user found!";
 
                 return RedirectToAction("All", "Comic");
             }
             
             if(!comicService.ComicExistsAsync(id).Result)
             {
-                TempData["ErrorMessage"] = "Comic not found!";
+                TempData[UserMessageError] = "Comic not found!";
 
                 return RedirectToAction("All", "Comic");
             }
@@ -61,14 +62,14 @@ namespace OnlineStore.Controllers
 
             if (userId == null || email == null)
             {
-                TempData["ErrorMessage"] = "No user found!";
+                TempData[UserMessageError] = "No user found!";
 
                 return RedirectToAction("Details", "Comic", new { id });
             }
 
             if (!comicService.ComicExistsAsync(id).Result)
             {
-                TempData["ErrorMessage"] = "Comic not found!";
+                TempData[UserMessageError] = "Comic not found!";
 
                 return RedirectToAction("All", "Comic");
             }
@@ -79,7 +80,7 @@ namespace OnlineStore.Controllers
 
             await reviewService.Add(form);
 
-            TempData["Success"] = "Review added succesfully!";
+            TempData[UserMessageSuccess] = "Review added succesfully!";
 
             return RedirectToAction("Details", "Comic", new { id });
         }
@@ -92,21 +93,21 @@ namespace OnlineStore.Controllers
 
             if (review == null)
             {
-                TempData["ErrorMessage"] = "No review found!";
+                TempData[UserMessageError] = "No review found!";
 
                 return RedirectToAction("All", "Comic");
             }
 
             if(review.ReviewerId.ToString() != GetId(User))
             {
-                TempData["ErrorMessage"] = "Unauthorized!";
+                TempData[UserMessageError] = "You have no permission to remove the review!";
 
                 return RedirectToAction("All", "Comic");
             }
 
             await reviewService.RemoveAsync(reviewId);
 
-            TempData["Success"] = "Review removed succesfully!";
+            TempData[UserMessageSuccess] = "Review removed succesfully!";
 
             return RedirectToAction("All", "Comic");
         }
