@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Core.Contracts;
 using OnlineStore.Infrastructure.Data.Models;
+using static OnlineStore.Core.Constants.MessageConstants;
 
 namespace OnlineStore.Controllers
 {
@@ -24,7 +25,7 @@ namespace OnlineStore.Controllers
 
             if (email == null)
             {
-                TempData["Error"] = "No user found!";
+                TempData[UserMessageError] = "No user found!";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -40,7 +41,7 @@ namespace OnlineStore.Controllers
 
             if (email == null)
             {
-                TempData["Error"] = "No user found!";
+                TempData[UserMessageError] = "No user found!";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -49,7 +50,7 @@ namespace OnlineStore.Controllers
 
             if(!comic)
             {
-                TempData["Error"] = "Comic not found!";
+                TempData[UserMessageError] = "Such comic does not exist!";
 
                 return RedirectToAction("All", "Comic");
             }
@@ -60,13 +61,13 @@ namespace OnlineStore.Controllers
 
             if (comicInCart)
             {
-                TempData["Error"] = "Comic already in cart!";
+                TempData[UserMessageError] = "Comic already in cart!";
 
                 return RedirectToAction("All", "Comic");
             }
             await cartService.Add(cart, id);
 
-            TempData["Success"] = "Comic added to cart!";
+            TempData[UserMessageSuccess] = "Comic added to cart!";
 
             return RedirectToAction("All", "Comic");
         }
@@ -77,7 +78,7 @@ namespace OnlineStore.Controllers
 
             if (email == null)
             {
-                TempData["Error"] = "No user found!";
+                TempData[UserMessageError] = "No user found!";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -88,12 +89,14 @@ namespace OnlineStore.Controllers
 
             if (!comicInCart)
             {
-                TempData["Error"] = "No such comic in the cart!";
+                TempData[UserMessageError] = "No such comic in the cart!";
 
                 return RedirectToAction("All", "Comic");
             }
 
             await cartService.Remove(cart, id);
+
+            TempData[UserMessageSuccess] = "Comic removed from cart!";
 
             return RedirectToAction("Details");
         }
@@ -104,7 +107,7 @@ namespace OnlineStore.Controllers
 
             if (email == null)
             {
-                TempData["Error"] = "No user found!";
+                TempData[UserMessageError] = "No user found!";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -113,7 +116,7 @@ namespace OnlineStore.Controllers
 
             if (!cartExist)
             {
-                TempData["Error"] = "No cart found!";
+                TempData[UserMessageError] = "No cart found!";
 
                 return RedirectToAction("All", "Comic");
             }
@@ -122,20 +125,22 @@ namespace OnlineStore.Controllers
 
             if(cart == null || cart.Id != id)
             {
-                TempData["Error"] = "No cart found!";
-
+                TempData[UserMessageError] = "No cart found!";
+                
                 return RedirectToAction("All", "Comic");
             }
 
 
             if (cart.Comics.Count == 0)
             {
-                TempData["Error"] = "No items in cart!";
+                TempData[UserMessageError] = "No items in cart!";
 
                 return RedirectToAction("All", "Comic");
             }
 
             await cartService.EmptyCart(cart.Id);
+
+            TempData[UserMessageSuccess] = "Order completed!";
 
             return View();
         }
