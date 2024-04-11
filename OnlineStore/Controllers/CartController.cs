@@ -56,11 +56,46 @@ namespace OnlineStore.Controllers
 
             Cart cart = await cartService.GetCartByUserId(email);
 
+            var comicInCart = await cartService.ComicExistsInCart(cart, id);
+
+            if (comicInCart)
+            {
+                TempData["Error"] = "Comic already in cart!";
+
+                return RedirectToAction("All", "Comic");
+            }
             await cartService.Add(cart, id);
 
             TempData["Success"] = "Comic added to cart!";
 
             return RedirectToAction("All", "Comic");
+        }
+
+        public async Task<IActionResult> Remove(int id)
+        {
+            var email = GetEmail(this.User);
+
+            if (email == null)
+            {
+                TempData["Error"] = "No user found!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            Cart cart = await cartService.GetCartByUserId(email);
+
+            var comicInCart = await cartService.ComicExistsInCart(cart, id);
+
+            if (!comicInCart)
+            {
+                TempData["Error"] = "No such comic in the cart!";
+
+                return RedirectToAction("All", "Comic");
+            }
+
+            await cartService.Remove(cart, id);
+
+            return RedirectToAction("Details");
         }
 
     }

@@ -55,5 +55,20 @@ namespace OnlineStore.Core.Services
             await db.SaveChangesAsync();
         }
 
+        public async Task Remove(Cart cart, int id)
+        {
+            var comic = await db.Comics.FindAsync(id);
+
+            cart.Comics.Remove(comic);
+
+            await db.SaveChangesAsync();
+        }
+
+        public async Task<bool> ComicExistsInCart(Cart cart, int id)
+        {
+            var comic = await db.Comics.FindAsync(id);
+
+            return cart.Comics.Contains(comic);
+        }
     }
 }
