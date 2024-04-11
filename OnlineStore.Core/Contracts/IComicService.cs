@@ -22,5 +22,7 @@ namespace OnlineStore.Core.Contracts
 
         public AddComicViewModel FindComic(int id);
 
+        public  Task<bool> ComicExistsAsync(int id);
+
     }
 }

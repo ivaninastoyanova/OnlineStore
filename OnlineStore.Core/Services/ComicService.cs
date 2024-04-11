@@ -187,5 +187,10 @@ namespace OnlineStore.Core.Services
 
             return model;
         }
+
+        public async Task<bool> ComicExistsAsync(int id)
+        {
+            return await db.Comics.AnyAsync(e => e.Id == id);
+        }
     }
 }

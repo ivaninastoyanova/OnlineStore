@@ -12,15 +12,17 @@ namespace OnlineStore.Controllers
         private ICreatorService creatorService;
         private IComicService comicService;
         private ICategoryService categoryService;
+        private IReviewService reviewService;
 
         public ComicController(ICreatorService creatorService,
                     IComicService comicService, 
-                    ICategoryService categoryService)
+                    ICategoryService categoryService,
+                    IReviewService reviewService)
         {
             this.creatorService = creatorService;
             this.comicService = comicService;
             this.categoryService = categoryService;
-
+            this.reviewService = reviewService;
         }
 
         [AllowAnonymous]
