@@ -1,0 +1,51 @@
+﻿@model Cart
+@using OnlineStore.Infrastructure.Data.Models;
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+    int count = 0;
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+
+@if (Model.Comics.Count == 0)
+{
+    <h2 class="text-center">There are no items in the cart!</h2>
+}
+else
+{
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Item Name</th>
+                <th scpoe="row">Item Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Comic comic in Model.Comics)
+            {
+                count++;
+                <tr>
+                    <th scope="row">@count</th>
+                    <td>@comic.Title</td>
+                    <td>@comic.Price</td>
+                    <td>
+                        <div class="form-inline align-self-center">
+                            <a class="btn btn-danger" asp-controller="Cart" asp-action="Remove"
+                               asp-route-id="@comic.Id" confirm="Are your sure?">Remove</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-inline align-self-center">
+        Total Price: @Model.Comics.Sum(b => b.Price)
+    </div>
+    <div class="form-inline align-self-center">
+        <a class="btn btn-success" asp-controller="Cart" asp-action="Finalise"
+           asp-route-id="@Model.Id">Checkout</a>
+    </div>
+}
