@@ -21,6 +21,7 @@ else
                 <th scope="col">#</th>
                 <th scope="col">Item Name</th>
                 <th scpoe="row">Item Price</th>
+                <th scpoe="row">Item Remove</th>
             </tr>
         </thead>
         <tbody>
@@ -46,6 +47,6 @@ else
     </div>
     <div class="form-inline align-self-center">
         <a class="btn btn-success" asp-controller="Cart" asp-action="Finalise"
-           asp-route-id="@Model.Id">Checkout</a>
+           asp-route-id="@Model.Id">Order now</a>
     </div>
 }
