@@ -56,7 +56,7 @@
                         if (review.ReviewerName == User.Identity.Name || User.IsInRole("Admin"))
                         {
                             <div class="form-inline align-self-center">
-                                <a class="btn btn-danger" asp-controller="Reviews" asp-action="Remove"
+                                <a class="btn btn-danger" asp-controller="Review" asp-action="Remove"
                                    asp-route-id="@review.Id" confirm="Are your sure?">Remove</a>
                             </div>
                         }

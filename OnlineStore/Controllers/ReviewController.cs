@@ -83,5 +83,32 @@ namespace OnlineStore.Controllers
 
             return RedirectToAction("Details", "Comic", new { id });
         }
+
+        public async Task<IActionResult> Remove(string id)
+        {
+            var reviewId = Guid.Parse(id);
+
+            var review = await reviewService.FindReviewAsync(reviewId);
+
+            if (review == null)
+            {
+                TempData["ErrorMessage"] = "No review found!";
+
+                return RedirectToAction("All", "Comic");
+            }
+
+            if(review.ReviewerId.ToString() != GetId(User))
+            {
+                TempData["ErrorMessage"] = "Unauthorized!";
+
+                return RedirectToAction("All", "Comic");
+            }
+
+            await reviewService.RemoveAsync(reviewId);
+
+            TempData["Success"] = "Review removed succesfully!";
+
+            return RedirectToAction("All", "Comic");
+        }
     }
 }

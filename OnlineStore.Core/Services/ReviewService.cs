@@ -33,5 +33,28 @@ namespace OnlineStore.Core.Services
             await db.Reviews.AddAsync(newReview);
             await db.SaveChangesAsync();
         }
+
+        public async Task RemoveAsync(Guid id)
+        {
+            var review = await db.Reviews.FindAsync(id);
+            if (review != null)
+            {
+                db.Reviews.Remove(review);
+                await db.SaveChangesAsync();
+                
+            }
+
+            //db.Reviews.Remove(review);
+
+            //await db.SaveChangesAsync();
+        }
+
+        public async Task<Review> FindReviewAsync(Guid id)
+        {
+            var review = await db.Reviews
+                .FindAsync(id);
+
+            return review;
+        }
     }
 }
