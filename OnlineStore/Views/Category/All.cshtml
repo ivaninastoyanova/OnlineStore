@@ -18,7 +18,10 @@
             <th scope="col">#</th>
             <th scope="col">Cateogry Name</th>
             <th scpoe="row">Remove Category</th>
-            <th scpoe="row">Edit Category</th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th scpoe="row">Edit Category</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -28,7 +31,7 @@
             <tr>
                 <th scope="row">@count</th>
                 <td>@category.Name</td>
-                @{
+                @if (User.IsInRole("Admin")){
                     if (CategoryService.CheckIfAnyComicWithGivenCategory(category.CategoryId))
                     {
                         <td>To remove the Category, Comics with the given Category must not exist.</td>
@@ -42,13 +45,24 @@
                             </div>
                         </td>
                     }
-                 }
-                <td>
-                    <div class="form-inline align-self-center">
-                        <a class="btn btn-danger" asp-controller="Category" asp-action="Edit"
-                           asp-route-id="@category.CategoryId">Edit</a>
-                    </div>
-                </td>
+                }
+                else
+                {
+                    <td>If you have any questions, do not hesitate to contact an Admin.</td>
+                }
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <div class="form-inline align-self-center">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="btn btn-danger" asp-controller="Category" asp-action="Edit"
+                                asp-route-id="@category.CategoryId">Edit</a>
+                            }
+                        </div>
+                    </td>
+                }
             </tr>
         }
     </tbody>

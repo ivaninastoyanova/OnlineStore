@@ -20,12 +20,13 @@
             <div class="form-inline">
                 @if (this.User.Identity?.IsAuthenticated ?? false)
                 {
-                    <a class="btn btn-warning" asp-controller="Creator" asp-action="Edit"
-                       asp-route-id="@Model.Id">Edit</a>
-                    <a class="ml-2 btn btn-danger" asp-controller="Creator" asp-action="Delete"
-                       asp-route-id="@Model.Id" confirm="Are your sure?">Delete</a>
-                    <a class="ml-2 btn btn-success" asp-controller="Creator" asp-action="Favourite"
-                       asp-route-id="@Model.Id">Add to favourite</a>
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-warning" asp-controller="Creator" asp-action="Edit"
+                           asp-route-id="@Model.Id">Edit</a>
+                        <a class="ml-2 btn btn-danger" asp-controller="Creator" asp-action="Delete"
+                           asp-route-id="@Model.Id" confirm="Are your sure?">Delete</a>
+                    }
                 }
             </div>
         </div>

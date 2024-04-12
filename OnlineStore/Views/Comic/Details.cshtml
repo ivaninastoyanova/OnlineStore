@@ -23,10 +23,13 @@
             <div class="form-inline">
                 @if (this.User.Identity?.IsAuthenticated ?? false)
                 {
-                    <a class="btn btn-warning" asp-controller="Comic" asp-action="Edit"
-                       asp-route-id="@Model.Id">Edit</a>
-                    <a class="ml-2 btn btn-danger" asp-controller="Comic" asp-action="Delete"
-                       asp-route-id="@Model.Id" confirm="Are your sure?">Delete</a>
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-warning" asp-controller="Comic" asp-action="Edit"
+                           asp-route-id="@Model.Id">Edit</a>
+                        <a class="ml-2 btn btn-danger" asp-controller="Comic" asp-action="Delete"
+                           asp-route-id="@Model.Id" confirm="Are your sure?">Delete</a>
+                    }
                     <a class="ml-2 btn btn-info" asp-controller="Creator" asp-action="Details"
                        asp-route-id="@Model.CreatorId">View Creator</a>
                     <a class="ml-2 btn btn-success" asp-controller="Cart" asp-action="Purchase"
