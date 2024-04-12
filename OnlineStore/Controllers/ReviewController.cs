@@ -98,7 +98,7 @@ namespace OnlineStore.Controllers
                 return RedirectToAction("All", "Comic");
             }
 
-            if(review.ReviewerId.ToString() != GetId(User))
+            if(review.ReviewerId.ToString() != GetId(User) && !IsAdmin(User))
             {
                 TempData[UserMessageError] = "You have no permission to remove the review!";
 
