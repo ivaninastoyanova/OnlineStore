@@ -227,6 +227,26 @@ namespace OnlineStore.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f9fcd63a-557c-49d7-8c30-dcea65f54b45"),
+                            AccessFailedCount = 0,
+                            CartId = 0,
+                            ConcurrencyStamp = "24aef6b0-811b-4ad7-af0a-29b5d9752aaf",
+                            Email = "admin@mail.com",
+                            EmailConfirmed = false,
+                            IsAdmin = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@MAIL.COM",
+                            NormalizedUserName = "ADMIN@MAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE5rIqLRaEu7ln+wa3JhQ9UPGW0Ut1ziIDRU+gnL+NS361/doM1CeEjWJNg/WC1YBw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1b76c903-ff54-470f-b468-bbcd079b2f8b",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@mail.com"
+                        });
                 });
 
             modelBuilder.Entity("OnlineStore.Infrastructure.Data.Models.Cart", b =>
