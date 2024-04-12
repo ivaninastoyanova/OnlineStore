@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineStore.Infrastructure.Constants;
 using System.Security.Claims;
 
 namespace OnlineStore.Controllers
@@ -15,6 +16,11 @@ namespace OnlineStore.Controllers
         public static string? GetEmail(ClaimsPrincipal user)
         {
             return user.FindFirstValue(ClaimTypes.Email);
+        }
+
+        public static bool IsAdmin(ClaimsPrincipal user)
+        {
+            return user.IsInRole(AdministratorConstants.AdminRoleName);
         }
     }
 }
