@@ -1,0 +1,49 @@
+﻿@using OnlineStore.Infrastructure.Data.Models;
+@model IEnumerable<ApplicationUser>
+@{
+    ViewData["Title"] = "All Users";
+    int count = 0;
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">User Name</th>
+            <th scpoe="row">Make Admin</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ApplicationUser user in Model)
+        {
+            count++;
+            <tr>
+                <th scope="row">@count</th>
+                <td>@user.Email</td>
+                @{
+                    if (user.IsAdmin)
+                    {
+                        <td>
+                            <div class="form-inline align-self-center">
+                                <a class="btn btn-danger" asp-area="Admin" asp-controller="User" asp-action="Remove"
+                                   asp-route-id="@user.Id" confirm="Are your sure?">Remove Admin Rights</a>
+                            </div>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <div class="form-inline align-self-center">
+                                <a class="btn btn-success" asp-area="Admin" asp-controller="User" asp-action="Add"
+                                   asp-route-id="@user.Id" confirm="Are your sure?">Add Admin Rights</a>
+                            </div>
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
