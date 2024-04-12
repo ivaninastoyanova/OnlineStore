@@ -48,7 +48,37 @@ namespace OnlineStore.Areas.Admin.Controllers
                 return RedirectToAction("All", "User");
             }
 
+            if(await userManager.IsInRoleAsync(user, AdministratorConstants.AdminRoleName))
+            {
+                TempData[UserMessageError] = "User is already Admin!";
+                return RedirectToAction("All", "User");
+            }
+
             await userManager.AddToRoleAsync(user, AdministratorConstants.AdminRoleName);
+            TempData[UserMessageSuccess] = "User added to Admin role!";
+
+            return RedirectToAction("All", "User");
+        }
+
+        [Route("Admin/User/Remove/{id}")]
+        public async Task<IActionResult> Remove(Guid id)
+        {
+            var user = await userService.GetUserById(id);
+
+            if (user == null)
+            {
+                TempData[UserMessageError] = "No such user!";
+                return RedirectToAction("All", "User");
+            }
+
+            if(!await userManager.IsInRoleAsync(user, AdministratorConstants.AdminRoleName))
+            {
+                TempData[UserMessageError] = "User is not Admin!";
+                return RedirectToAction("All", "User");
+            }
+
+            await userManager.RemoveFromRoleAsync(user, AdministratorConstants.AdminRoleName);
+            TempData[UserMessageSuccess] = "User removed from Admin role!";
 
             return RedirectToAction("All", "User");
         }

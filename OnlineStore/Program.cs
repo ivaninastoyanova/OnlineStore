@@ -76,17 +76,12 @@ app.UseEndpoints(config =>
     config.MapControllerRoute(
         name: "ProtectingUrlRoute",
         pattern: "/{controller}/{action}/{id}/{information}",
-        defaults: new { Controller = "Book", Action = "All" });
+        defaults: new { Controller = "Comic", Action = "All" });
 
     config.MapDefaultControllerRoute();
 
     config.MapRazorPages();
 });
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
-//app.MapRazorPages();
 
 await app.SeedAdmin();
 
