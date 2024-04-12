@@ -52,10 +52,10 @@ namespace OnlineStore.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            //if (!IsAdmin(User))
-            //{
-            //    return Unauthorized();
-            //}
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
 
             AddCreatorFormModel model = new AddCreatorFormModel();
 
@@ -65,11 +65,10 @@ namespace OnlineStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddCreatorFormModel model)
         {
-            //if (!IsAdmin(User))
-            //{
-            //    return Unauthorized();
-            //}
-           
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
 
             if (await creatorService.ValidateCreator(model.FullName))
             {
@@ -94,6 +93,11 @@ namespace OnlineStore.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
+
             Creator creator = await creatorService.GetGreatorByIdAsync(id);
 
             if (creator == null || creator.IsDeleted == true)
@@ -120,6 +124,10 @@ namespace OnlineStore.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
 
             Creator creator = await creatorService.GetGreatorByIdAsync(id);
 
@@ -140,6 +148,11 @@ namespace OnlineStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(AddCreatorFormModel model)
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
+
             Creator creator = await creatorService.GetGreatorByIdAsync(model.Id);
 
             await creatorService.EditCreatorAsync(model, creator);

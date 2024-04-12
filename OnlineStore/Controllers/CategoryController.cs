@@ -27,6 +27,11 @@ namespace OnlineStore.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
+
             CategoryViewModel model = new CategoryViewModel();
 
             return View(model);
@@ -35,6 +40,11 @@ namespace OnlineStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CategoryViewModel model)
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
+
             if (await categoryService.ValidateCategory(model.Name))
             {
                 ModelState.AddModelError(nameof(model.Name), "This Category already exists! Add different one or check all categories.");
@@ -51,6 +61,11 @@ namespace OnlineStore.Controllers
 
         public async Task<IActionResult> Remove(int id)
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
+
             Category? category = categoryService.FindCategory(id);
 
             if (category == null)
@@ -75,6 +90,11 @@ namespace OnlineStore.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
+
             Category categoryToEdit = categoryService.FindCategory(id);
 
             if (categoryToEdit == null)
@@ -93,6 +113,11 @@ namespace OnlineStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, CategoryViewModel categoryModel)
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
+
             var categoryToEdit = categoryService.FindCategory(id);
 
             if (categoryToEdit == null)

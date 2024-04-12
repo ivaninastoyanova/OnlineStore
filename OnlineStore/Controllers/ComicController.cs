@@ -60,10 +60,10 @@ namespace OnlineStore.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            //if (!IsAdmin(User))
-            //{
-            //    return Unauthorized();
-            //}
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
 
             AddComicViewModel viewModel = new AddComicViewModel();
 
@@ -77,10 +77,10 @@ namespace OnlineStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddComicViewModel model)
         {
-            //if (!IsAdmin(User))
-            //{
-            //    return Unauthorized();
-            //}
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
 
             IEnumerable<CategoryViewModel> categories = await categoryService.GetCategoriesAsync();
 
@@ -110,6 +110,10 @@ namespace OnlineStore.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
             bool result = await comicService.DeleteComic(id);
 
             if (result)
@@ -129,6 +133,11 @@ namespace OnlineStore.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
+
             AddComicViewModel model = new AddComicViewModel();
 
             model = comicService.FindComic(id);
@@ -148,6 +157,11 @@ namespace OnlineStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, AddComicViewModel model)
         {
+            if (!IsAdmin(User))
+            {
+                return Unauthorized();
+            }
+
             var comic = comicService.FindComic(id);
             IEnumerable<CategoryViewModel> categories = await categoryService.GetCategoriesAsync();
 
