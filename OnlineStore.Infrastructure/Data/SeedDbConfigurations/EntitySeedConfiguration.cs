@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using OnlineStore.Infrastructure.Constants;
 using OnlineStore.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static OnlineStore.Infrastructure.Constants.AdministratorConstants;
 
 namespace OnlineStore.Infrastructure.Data.SeedDbConfigurations
 {
@@ -12,6 +15,7 @@ namespace OnlineStore.Infrastructure.Data.SeedDbConfigurations
     {
         public static void Seed(ModelBuilder modelBuilder)
         {
+            var hasher = new PasswordHasher<ApplicationUser>();
 
             modelBuilder.Entity<Creator>()
                .HasData(
@@ -131,7 +135,19 @@ namespace OnlineStore.Infrastructure.Data.SeedDbConfigurations
                    Price = 34
                });
 
+            ApplicationUser AdminUser = new ApplicationUser
+            {
+                Id = Guid.NewGuid(),
+                Email = AdminEmail,
+                NormalizedEmail = AdminEmail.ToUpper(),
+                UserName = AdminEmail,
+                NormalizedUserName = AdminEmail.ToUpper(),
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+            AdminUser.PasswordHash = hasher.HashPassword(AdminUser, AdminPass);
 
+            modelBuilder.Entity<ApplicationUser>()
+                .HasData(AdminUser);
         }
     }
 }
