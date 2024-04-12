@@ -18,10 +18,12 @@
             </h6>
             <br />
             
-            <a asp-controller="Comic" asp-action="Details" asp-route-id="@Model.Id"
-               class="btn btn-warning">Details</a>
-
-
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Comic" asp-action="Details" asp-route-id="@Model.Id"
+                   class="btn btn-warning">Details</a>
+            }
+            
             @if (this.User.IsInRole("Admin"))
             {
                 <p></p>
@@ -31,10 +33,14 @@
                    class="btn btn-danger" confirm="Are your sure?">Delete</a>
                 <p></p>
             }
-            <div class="form-inline">
-                <a asp-controller="Cart" asp-action="Purchase" asp-route-id="@Model.Id"
-                   class="btn btn-success">Purchase</a>
-            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="form-inline">
+                    <a asp-controller="Cart" asp-action="Purchase" asp-route-id="@Model.Id"
+                       class="btn btn-success">Purchase</a>
+                </div>
+            }
+            
         </div>
     </div>
 </div>
