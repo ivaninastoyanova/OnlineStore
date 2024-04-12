@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 using OnlineStore.Core.Contracts;
 using OnlineStore.Infrastructure.Constants;
 using OnlineStore.Infrastructure.Data.Models;
+using static OnlineStore.Core.Constants.MessageConstants;
 
 namespace OnlineStore.Areas.Admin.Controllers
 {
@@ -34,6 +35,22 @@ namespace OnlineStore.Areas.Admin.Controllers
             }
 
             return this.View(users);
+        }
+
+        [Route("Admin/User/Add/{id}")]
+        public async Task<IActionResult> Add(Guid id)
+        {
+            var user = await userService.GetUserById(id);
+
+            if (user == null)
+            {
+                TempData[UserMessageError] = "No such user!";
+                return RedirectToAction("All", "User");
+            }
+
+            await userManager.AddToRoleAsync(user, AdministratorConstants.AdminRoleName);
+
+            return RedirectToAction("All", "User");
         }
     }
 }
