@@ -24,7 +24,7 @@ namespace OnlineStore.Core.Services
             Cart? result = new Cart();
 
             result = await db.Carts
-                .Include(x => x.Comics)
+                .Include(x => x.Comics.Where(co => co.IsDeleted == false))
                 .Where(c => c.User.Email == email)
                 .FirstOrDefaultAsync();
 
