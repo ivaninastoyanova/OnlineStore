@@ -36,7 +36,7 @@ namespace OnlineStore.Core.Services
         public async Task<bool> ValidateCreator(string name)
         {
             Creator? creator = await db.Creators
-                .FirstOrDefaultAsync(a => a.FullName.ToLower() == name.ToLower());
+                .FirstOrDefaultAsync(c => c.FullName.ToLower() == name.ToLower() && c.IsDeleted == false);
 
             if (creator == null)
             {
