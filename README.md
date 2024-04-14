@@ -1,8 +1,12 @@
 # :books: Comic Online Store - ASP.NET Core Application
 ## :memo: Project Overview
-The Comic Online Store is an application designed for users to explore and purchase various comics across different categories.
-<br /> 
-Users can browse through comics, add them to their shopping cart, remove items from the cart as needed, and proceed with their purchases at their convenience. Additionally, the application offers a section dedicated to providing brief biographies and information about the creators behind the comics. Moreover, users have the ability to write reviews for all comics accessible within the application. Should they choose to, they can also delete their own reviews.
+The **Comic Online Store** is an application designed for users to explore and purchase various comics across different categories.
+<br/><br/> 
+Users can browse through comics, add them to their shopping cart, remove items from the cart as needed, and proceed with their purchases at their convenience. 
+<br />
+Additionally, the application offers a section dedicated to providing brief biographies and information about the creators behind the comics. 
+<br />
+Moreover, users have the ability to write reviews for all comics accessible within the application. Should they choose to, they can also delete their own reviews.
 
 :exclamation: **Admin users hold additional privileges within the application**, including:
 
