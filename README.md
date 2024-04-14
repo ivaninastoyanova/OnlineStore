@@ -4,7 +4,7 @@ The Comic Online Store is an application designed for users to explore and purch
 <br /> 
 Users can browse through comics, add them to their shopping cart, remove items from the cart as needed, and proceed with their purchases at their convenience. Additionally, the application offers a section dedicated to providing brief biographies and information about the creators behind the comics.
 
-**Admin users hold additional privileges within the application**, including:
+:exclamation: **Admin users hold additional privileges within the application**, including:
 
 * Management of comics, creators, and categories, including adding, editing, and deleting functionalities.
 * Granting admin rights to other registered users, facilitated through the admin area.
