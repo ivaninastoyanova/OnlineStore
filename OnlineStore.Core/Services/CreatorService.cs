@@ -75,14 +75,14 @@ namespace OnlineStore.Core.Services
 
         public async Task<Creator> GetGreatorByIdAsync(int id)
         {
-            Creator? author = await db.Creators.FindAsync(id);
+            Creator? creator = await db.Creators.FindAsync(id);
 
-            if (author == null)
+            if (creator == null)
             {
                 return null;
             }
 
-            return author;
+            return creator;
         }
 
         public async Task AddCreatorAsync(AddCreatorFormModel model)
@@ -113,7 +113,7 @@ namespace OnlineStore.Core.Services
         public bool CheckIfAnyComicByCertainCreator(int id)
         {
             Comic? comic = db.Comics
-                .FirstOrDefault(c => c.CreatorId == id);
+                .FirstOrDefault(c => c.CreatorId == id && c.IsDeleted == false); 
 
             if (comic != null && comic.IsDeleted == false)
             {
