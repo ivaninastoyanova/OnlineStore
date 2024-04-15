@@ -13,10 +13,11 @@ namespace OnlineStore.Infrastructure
 {
     public class OnlineStoreDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
-        public OnlineStoreDbContext(DbContextOptions<OnlineStoreDbContext> options)
+        private readonly bool seedDb;
+        public OnlineStoreDbContext(DbContextOptions<OnlineStoreDbContext> options, bool seedDb = true)
             : base(options)
         {
-
+            this.seedDb = seedDb;
         }
 
         public DbSet<Creator> Creators { get; set; } = null!;
@@ -56,7 +57,10 @@ namespace OnlineStore.Infrastructure
                 .WithOne(u => u.User)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            EntitySeedConfiguration.Seed(builder);
+            if(seedDb)
+            {
+                EntitySeedConfiguration.Seed(builder);
+            }
 
             base.OnModelCreating(builder);
         }
