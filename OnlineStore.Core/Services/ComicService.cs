@@ -190,7 +190,7 @@ namespace OnlineStore.Core.Services
 
         public async Task<bool> ComicExistsAsync(int id)
         {
-            return await db.Comics.AnyAsync(e => e.Id == id);
+            return await db.Comics.AnyAsync(e => e.Id == id && e.IsDeleted == false);
         }
     }
 }
