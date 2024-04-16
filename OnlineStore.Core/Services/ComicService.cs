@@ -168,7 +168,7 @@ namespace OnlineStore.Core.Services
         {
             Comic? comic = db.Comics.Find(id);
 
-            if (comic == null)
+            if (comic == null || comic.IsDeleted == true)
             {
                 return null;
             }

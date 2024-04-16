@@ -196,9 +196,9 @@ namespace OnlineStore.Tests
             int comicId = 2;
             string wantedTitle = "Maus";
 
-            var book = comicService.FindComic(comicId);
+            var comic = comicService.FindComic(comicId);
 
-            Assert.That("Maus", Is.EqualTo(wantedTitle));
+            Assert.That(comic.Title, Is.EqualTo(wantedTitle));
         }
 
         [Test]
@@ -209,6 +209,21 @@ namespace OnlineStore.Tests
             var comic = comicService.FindComic(comicId);
 
             Assert.IsNull(comic);
+        }
+
+        [Test]
+        public async Task FindComicIsDeletedIsTrue()
+        {
+            int comicId = 2;
+
+            var comicFromDb = dbContext.Comics.Find(comicId);
+            comicFromDb.IsDeleted = true;
+
+            var comic = comicService.FindComic(comicId);
+
+            Assert.IsNull(comic);
+
+            comicFromDb.IsDeleted = false;
         }
 
         [Test]
