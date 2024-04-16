@@ -282,6 +282,21 @@ namespace OnlineStore.Tests
         }
 
         [Test]
+        public async Task DeleteComicAsyncAlreadyDeleted()
+        {
+            int comicId = 1;
+            var comic = dbContext.Comics.Find(comicId);
+
+            bool deleted = await comicService.DeleteComic(comicId);
+            bool deletedAgain = await comicService.DeleteComic(comicId);
+
+            Assert.IsTrue(deleted);
+            Assert.IsFalse(deletedAgain);
+
+            comic.IsDeleted = false;
+        }
+
+        [Test]
         public async Task AddComicAsync()
         {
             int creatorId = 1;

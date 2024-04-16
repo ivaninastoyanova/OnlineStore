@@ -135,7 +135,7 @@ namespace OnlineStore.Core.Services
         {
             Comic? comic = await db.Comics.FindAsync(id);
 
-            if (comic == null)
+            if (comic == null || comic.IsDeleted == true)
             {
                 return false;
             }
