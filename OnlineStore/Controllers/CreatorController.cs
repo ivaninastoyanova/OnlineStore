@@ -16,7 +16,7 @@ namespace OnlineStore.Controllers
         {
             this.creatorService = creatorService;
         }
-        [AllowAnonymous]
+
         [HttpGet]
         public async Task<IActionResult> All()
         {
