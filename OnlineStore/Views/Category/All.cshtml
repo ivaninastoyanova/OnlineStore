@@ -48,7 +48,9 @@
                 }
                 else
                 {
-                    <td>If you have any questions, do not hesitate to contact an Admin.</td>
+                    <td>
+                        Go to <a asp-controller="Home" asp-action="Index">Home</a> page to see all available comics!
+                    </td>
                 }
 
                 @if (User.IsInRole("Admin"))
