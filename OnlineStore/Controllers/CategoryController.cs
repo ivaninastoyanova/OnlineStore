@@ -70,6 +70,7 @@ namespace OnlineStore.Controllers
 
             if (category == null)
             {
+                TempData[UserMessageError] = "No such category!";
                 return RedirectToAction("All");
             }
 
