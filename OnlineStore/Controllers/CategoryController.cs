@@ -100,6 +100,7 @@ namespace OnlineStore.Controllers
 
             if (categoryToEdit == null)
             {
+                TempData[UserMessageError] = "No such category!";
                 return RedirectToAction("All");
             }
 
