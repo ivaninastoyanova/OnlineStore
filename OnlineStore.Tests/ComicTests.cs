@@ -256,6 +256,24 @@ namespace OnlineStore.Tests
         }
 
         [Test]
+        public async Task GetComicAsyncIsDeletedIsTrue()
+        {
+            var queryModel = new ComicDetailsViewModel();
+
+            int comicId = 2;
+
+            var comicFromDb = dbContext.Comics.Find(comicId);
+            comicFromDb.IsDeleted = true;
+
+            var comic = comicService.GetComicAsync(queryModel, comicId);
+
+            Assert.IsNull(comic.Result);
+
+            comicFromDb.IsDeleted = false;
+        }
+
+
+        [Test]
         public async Task DeleteComicAsync()
         {
             int comicId = 1;

@@ -95,7 +95,7 @@ namespace OnlineStore.Core.Services
                 .Include(d => d.Reviews)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-            if (comic == null)
+            if (comic == null || comic.IsDeleted == true)
             {
                 return null;
             }
