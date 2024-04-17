@@ -19,15 +19,14 @@ namespace OnlineStore.Tests
 
         private IReviewService reviewService;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public void SetUp()
         {
             this.dbOptions = new DbContextOptionsBuilder<OnlineStoreDbContext>()
                 .UseInMemoryDatabase("OnlineStoreInMemory" + Guid.NewGuid().ToString())
                 .Options;
 
             this.dbContext = new OnlineStoreDbContext(this.dbOptions, false);
-
 
             this.dbContext.Database.EnsureCreated();
 
@@ -93,7 +92,7 @@ namespace OnlineStore.Tests
 
             await this.reviewService.RemoveAsync(id);
 
-            Assert.AreEqual(1, this.dbContext.Reviews.Count());
+            Assert.AreEqual(0, this.dbContext.Reviews.Count());
         }
 
         [Test]

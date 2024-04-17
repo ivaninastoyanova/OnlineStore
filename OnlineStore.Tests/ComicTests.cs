@@ -22,8 +22,8 @@ namespace OnlineStore.Tests
 
         private IComicService comicService;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public void SetUp()
         {
             this.dbOptions = new DbContextOptionsBuilder<OnlineStoreDbContext>()
                 .UseInMemoryDatabase("OnlineStoreInMemory" + Guid.NewGuid().ToString())
@@ -31,13 +31,11 @@ namespace OnlineStore.Tests
 
             this.dbContext = new OnlineStoreDbContext(this.dbOptions, false);
 
-
             this.dbContext.Database.EnsureCreated();
 
             DataSeeder.Seed(this.dbContext);
 
             this.comicService = new ComicService(this.dbContext);
-
         }
 
         [Test]
@@ -115,6 +113,22 @@ namespace OnlineStore.Tests
             Assert.AreEqual(2, result.Comics.Count());
             Assert.AreEqual(2, result.Comics.First().Id);
         }
+
+        [Test]
+        public async Task AllAsyncWithSortingDesc()
+        {
+            var queryModel = new ComicAllQueryModel
+            {
+                ComicSorting = ComicSortEnum.PriceDescending
+            };
+
+            var result = await this.comicService.AllAsync(queryModel);
+
+            Assert.AreEqual(2, result.Comics.Count());
+            Assert.AreEqual(1, result.Comics.First().Id);
+        }
+
+
 
         [Test]
         public async Task AllAsyncWithPagination()
@@ -198,7 +212,7 @@ namespace OnlineStore.Tests
 
             var comic = comicService.FindComic(comicId);
 
-            Assert.That(comic.Title, Is.EqualTo(wantedTitle));
+            Assert.AreEqual(comic.Title, wantedTitle);
         }
 
         [Test]
@@ -222,8 +236,6 @@ namespace OnlineStore.Tests
             var comic = comicService.FindComic(comicId);
 
             Assert.IsNull(comic);
-
-            comicFromDb.IsDeleted = false;
         }
 
         [Test]
@@ -283,8 +295,6 @@ namespace OnlineStore.Tests
             var comic = comicService.GetComicAsync(queryModel, comicId);
 
             Assert.IsNull(comic.Result);
-
-            comicFromDb.IsDeleted = false;
         }
 
 
@@ -298,8 +308,6 @@ namespace OnlineStore.Tests
             var comic = dbContext.Comics.Find(comicId);
 
             Assert.IsTrue(comic.IsDeleted);
-
-            comic.IsDeleted = false;
         }
 
 
@@ -311,7 +319,6 @@ namespace OnlineStore.Tests
             bool deleted = await comicService.DeleteComic(comicId);
 
             Assert.IsFalse(deleted);
-
         }
 
         [Test]
@@ -325,8 +332,6 @@ namespace OnlineStore.Tests
 
             Assert.IsTrue(deleted);
             Assert.IsFalse(deletedAgain);
-
-            comic.IsDeleted = false;
         }
 
         [Test]
@@ -353,9 +358,7 @@ namespace OnlineStore.Tests
             Assert.IsNotNull(comic);
             Assert.AreEqual("Test", comic.Title);
             Assert.AreEqual(comic.CreatorId, creatorId);
-
-            dbContext.Comics.Remove(comic);
-            dbContext.SaveChanges();
+            Assert.AreEqual(comic.Creator.FullName, creator.FullName);
         }
 
         [Test]
@@ -384,11 +387,6 @@ namespace OnlineStore.Tests
             Assert.AreEqual(20, comic.Price);
             Assert.AreEqual(comic.CreatorId, creatorId);
             Assert.AreEqual(comic.CategoryId, 2);
-
-
-            comic.CategoryId = 1;
-            comic.Price = 25;
-            dbContext.SaveChanges();
         }
     }
 }

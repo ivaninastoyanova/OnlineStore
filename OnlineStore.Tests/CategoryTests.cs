@@ -18,15 +18,14 @@ namespace OnlineStore.Tests
 
         private ICategoryService categoryService;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public void SetUp()
         {
             this.dbOptions = new DbContextOptionsBuilder<OnlineStoreDbContext>()
                 .UseInMemoryDatabase("OnlineStoreInMemory" + Guid.NewGuid().ToString())
                 .Options;
 
             this.dbContext = new OnlineStoreDbContext(this.dbOptions, false);
-
 
             this.dbContext.Database.EnsureCreated();
 
@@ -40,7 +39,7 @@ namespace OnlineStore.Tests
         {
             var categories = await this.categoryService.GetCategoriesAsync();
 
-            Assert.AreEqual(3, categories.Count());
+            Assert.AreEqual(2, categories.Count());
         }
 
         [Test]
@@ -48,7 +47,7 @@ namespace OnlineStore.Tests
         {
             var categoryNames = await this.categoryService.AllCategoryNames();
 
-            Assert.AreEqual(3, categoryNames.Count());
+            Assert.AreEqual(2, categoryNames.Count());
         }
 
         [Test]
@@ -118,7 +117,7 @@ namespace OnlineStore.Tests
         [Test]
         public async Task RemoveAsync()
         {
-            int categoryId = 3;
+            int categoryId = 1;
 
             await this.categoryService.RemoveAsync(categoryId);
 
@@ -160,7 +159,7 @@ namespace OnlineStore.Tests
         [Test]
         public async Task EditCategoryAsync()
         {
-            int categoryId = 3;
+            int categoryId = 1;
             var model = new CategoryViewModel()
             {
                 Name = "New Name"

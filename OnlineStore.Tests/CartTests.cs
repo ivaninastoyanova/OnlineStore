@@ -17,15 +17,14 @@ namespace OnlineStore.Tests
 
         private ICartService cartService;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public void SetUp()
         {
             this.dbOptions = new DbContextOptionsBuilder<OnlineStoreDbContext>()
                 .UseInMemoryDatabase("OnlineStoreInMemory" + Guid.NewGuid().ToString())
                 .Options;
 
             this.dbContext = new OnlineStoreDbContext(this.dbOptions, false);
-
 
             this.dbContext.Database.EnsureCreated();
 
@@ -55,7 +54,7 @@ namespace OnlineStore.Tests
             var cart = await this.cartService.GetCartByUserId(DataSeeder.ApplicationUser.Email);
 
             Assert.IsNotNull(cart);
-            Assert.IsTrue(cart.Comics.Count == 1);
+            Assert.IsTrue(cart.Comics.Count == 0);
         }
 
         [Test]
@@ -78,6 +77,9 @@ namespace OnlineStore.Tests
             var cart = await this.cartService.GetCartByUserId(DataSeeder.ApplicationUser.Email);
 
             var comicId = 1;
+            var comic = this.dbContext.Comics.Find(comicId);
+
+            cart.Comics.Add(comic);
 
             var result = await this.cartService.ComicExistsInCart(cart, comicId);
 

@@ -19,15 +19,14 @@ namespace OnlineStore.Tests
 
         private ICreatorService creatorService;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public void SetUp()
         {
             this.dbOptions = new DbContextOptionsBuilder<OnlineStoreDbContext>()
                 .UseInMemoryDatabase("OnlineStoreInMemory" + Guid.NewGuid().ToString())
                 .Options;
 
             this.dbContext = new OnlineStoreDbContext(this.dbOptions, false);
-
 
             this.dbContext.Database.EnsureCreated();
 
@@ -72,14 +71,22 @@ namespace OnlineStore.Tests
             string creatorName = "Invalid Name";
 
             Assert.ThrowsAsync<ArgumentNullException>(() => 
-            this.creatorService.GetCreatorByNameAsync(creatorName));
+                this.creatorService.GetCreatorByNameAsync(creatorName));
+        }
 
+        [Test]
+        public async Task ValidateCreatorSmallLetters()
+        {
+            string creatorName = "frank miller";
+            var isValid = await this.creatorService.ValidateCreator(creatorName);
+
+            Assert.IsTrue(isValid);
         }
 
         [Test]
         public async Task ValidateCreator()
         {
-            string creatorName = "frank miller";
+            string creatorName = "frank MILLER";
             var isValid = await this.creatorService.ValidateCreator(creatorName);
 
             Assert.IsTrue(isValid);
@@ -101,7 +108,7 @@ namespace OnlineStore.Tests
             var creators = await this.creatorService.GetAllCreatorsAsync();
 
             Assert.IsNotNull(creators);
-            Assert.AreEqual(3, creators.Count());
+            Assert.AreEqual(2, creators.Count());
         }
 
         [Test]
@@ -123,7 +130,7 @@ namespace OnlineStore.Tests
             var model = new CreatorDetailsViewModel();
 
             Assert.ThrowsAsync<NullReferenceException>(() => 
-            this.creatorService.FillModelById(model, creatorId));
+                this.creatorService.FillModelById(model, creatorId));
         }
 
         [Test]
@@ -168,6 +175,7 @@ namespace OnlineStore.Tests
             Assert.AreEqual(model.Biography, creator.Biography);
             Assert.AreEqual(model.PhotoUrl, creator.PhotoUrl);
             Assert.AreEqual(model.Id, creator.Id);
+            Assert.AreEqual(3, dbContext.Creators.Count());
         }
 
         [Test]
@@ -200,7 +208,7 @@ namespace OnlineStore.Tests
         [Test]
         public async Task EditCreatorAsync()
         {
-            int creatorId = 3;
+            int creatorId = 1;
             var creator = await this.creatorService.GetGreatorByIdAsync(creatorId);
 
             var model = new AddCreatorFormModel
@@ -217,9 +225,6 @@ namespace OnlineStore.Tests
             Assert.AreEqual(model.FullName, creator.FullName);
             Assert.AreEqual(model.PhotoUrl, creator.PhotoUrl);
             Assert.AreEqual("Biography edited", creator.Biography);
-
-            creator.Biography = "Biography";
-            dbContext.SaveChanges();
         }
 
         [Test]
@@ -243,7 +248,7 @@ namespace OnlineStore.Tests
         [Test]
         public async Task DeleteCreatorAsync()
         {
-            int creatorId = 3;
+            int creatorId = 1;
 
             var creator = await this.creatorService.GetGreatorByIdAsync(creatorId);
 
@@ -260,7 +265,7 @@ namespace OnlineStore.Tests
             var creator = await this.creatorService.GetGreatorByIdAsync(creatorId);
 
             Assert.ThrowsAsync<NullReferenceException>(() => 
-                                  this.creatorService.DeleteCreatorAsync(creatorId));
+                this.creatorService.DeleteCreatorAsync(creatorId));
         }
     }
 }

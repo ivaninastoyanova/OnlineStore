@@ -17,15 +17,14 @@ namespace OnlineStore.Tests
 
         private IUserService userService;
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public void SetUp()
         {
             this.dbOptions = new DbContextOptionsBuilder<OnlineStoreDbContext>()
                 .UseInMemoryDatabase("OnlineStoreInMemory" + Guid.NewGuid().ToString())
                 .Options;
 
             this.dbContext = new OnlineStoreDbContext(this.dbOptions, false);
-
 
             this.dbContext.Database.EnsureCreated();
 
@@ -44,7 +43,7 @@ namespace OnlineStore.Tests
         }
 
         [Test]
-        public async Task GetUserByIdInvalidId()
+        public async Task GetUserById_InvalidId()
         {
             var user = await this.userService.GetUserById(Guid.NewGuid());
 
